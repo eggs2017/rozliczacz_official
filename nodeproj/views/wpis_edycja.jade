@@ -1,0 +1,164 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+         
+        function setActionButtonStatus(field){
+                element = $('#'+ field);
+                $("div[field='" + field+"']" ).each(function (i) {
+                    if ( $(this).attr("value") != element.val())
+                         $(this).attr("class" , "option");
+                    else
+                        $(this).attr("class" , "option bordered");
+                  });
+        }
+            
+        $(function(){ 
+            $(".option").click(function (event) {
+                _id = this.id;
+                elem = $(".option#"+_id);
+                $('#refschemat').val(_id); 
+                $(elem).attr("class", "option bordered");
+                
+                //get nazwa,adres, opis
+                //alert(elem.attr('firma'))
+                $('#nazwa').val(elem.attr('firma')); 
+                $('#nip').val(elem.attr('nip')); 
+                $('#vatstawka').val(elem.attr('vatstawka')); 
+                $('#vatodliczenie').val(elem.attr('vatodliczenie')); 
+
+                $('#typ').val(elem.attr('typ')); 
+                
+                $('#adres').val(elem.attr('adres')); 
+                $('#opis').val(elem.attr('opis')); 
+                
+                
+                //footer
+                $('#foot_typ').text(elem.attr('typ') == -1 ? "zakup" : "sprzedaż");    
+                $('#foot_vatstawka').text( Math.floor(elem.attr('vatstawka')*100) + "%");
+                $('#foot_vatodliczenie').text(elem.attr('vatodliczenie') == 0.5 ?   "odliczenie 50%": "pełne");
+
+                //disable for others
+                $( ".option" ).each(function (i) {
+                    if ( this.id != _id)
+                        $(this).attr("class","option");
+                  });
+
+                 $("#numer").focus();
+            });
+            
+            
+            $(".option[id]").mouseover(function (event) { 
+                elem = event.target;
+                if($('#refschemat').val() != $(elem).attr('id')){
+                   // alert($('#refschemat').val());
+                    $(elem).attr("class" , "option bolded");
+                    }
+            })
+            .mouseleave(function(event) {
+                elem = event.target;
+                
+                if($('#refschemat').val() != $(elem).attr('id')){
+                   $(elem).attr("class" , "option");
+                    $("input").each(function (i) {
+                         //alert('check');
+                        setActionButtonStatus($(this).attr("id"));
+                    });
+                }
+                
+            })
+            
+            $(document).ready(function(){
+                $( ".option[id]" ).each(function (i) {
+                    if ( this.id != $('#refschemat').val())
+                        $(this).attr("class","option"); 
+                    else
+                        $(this).attr("class","option bordered"); 
+                  });
+                  
+                $(".item").each(function(i) {
+                    var child = this.children();
+                    if( child.val().length == 0)
+                         $(this).attr("disabled" , true);
+                });
+                  
+                 $("#numer").focus();
+            });
+            
+            
+           $('#data').datepicker(
+           {
+                dateFormat : 'yy-mm-dd',
+                regional   : 'pl'
+           }).datepicker( 'setDate' , $('#data').val());
+           
+           
+           //menu_item
+             $(".menu_item").mouseover(function (event) {
+                elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+          
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item Zapisz
+        #edycja1
+            div.menu
+                #options
+                    div.option.title  Wybierz schemat:
+                    - each wpis_schema in wpisy_schema
+                        div.option(id=wpis_schema._id, value = wpis_schema.vatstawka * 100, mnoz = wpis_schema.typ, firma=wpis_schema.firma, adres=wpis_schema.adres, opis =wpis_schema.opis , nip=wpis_schema.nip, vatstawka=wpis_schema.vatstawka, typ=wpis_schema.typ, vatodliczenie=wpis_schema.vatodliczenie) #{wpis_schema.nazwa} 
+            div.menu
+                input(type="hidden", name="refmiesiac", id="refmiesiac", value=param.refmiesiac)
+                input(type="hidden", name="refschemat", id="refschemat", value=param.refschemat)
+                input(type="hidden", name="vatstawka", id="vatstawka", value=param.vatstawka)
+                input(type="hidden", name="vatodliczenie", id="vatodliczenie", value=param.vatodliczenie)
+                input(type="hidden", name="typ", id="typ", value=param.typ)
+                
+                
+                    
+                div.box
+                    div.title Data: 
+                    div.item
+                        input(type="text", name="data", id="data",  value=param.data)
+                div.box
+                    div.title Numer dokumentu: 
+                    div.item
+                        input(type="text", name="numer", id="numer", value=param.numer)
+                div.box    
+                    div.title Nazwa:
+                    div.item 
+                        input(type="text", name="nazwa", id="nazwa", value=param.nazwa)
+                div.box    
+                    div.title Nip:
+                    div.item 
+                        input(type="text", name="nip", id="nip", value=param.nip)
+                div.box
+                    div.title Adres: 
+                    div.item
+                        input(type="text", name="adres", id="adres", value=param.adres)
+                div.box
+                    div.title Opis: 
+                    div.item
+                        input(type="text", name="opis", id="opis", value=param.opis)
+                div.box
+                    div.title Cena: 
+                    div.item
+                        input(type="text", name="cena", id="cena", value=param.cena)
+
+                #options
+                    div.option(id='foot_typ') #{param.typ == -1 ? "zakup" : "sprzedaż"} 
+                    div.option(id='foot_vatstawka') #{Math.floor(param.vatstawka*100)}% 
+                    div.option(id='foot_vatodliczenie') #{param.vatodliczenie == 0.5 ? "odliczenie 50%" : "pełne"}

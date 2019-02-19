@@ -1,0 +1,30 @@
+{
+  "name": "rozliczacz",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "connect-redis": "1.4.6",
+    "debug": "^4.1.1",
+    "everyauth": "^0.4.9",
+    "express": "3.0.6",
+    "jade": "^0.27.7",
+    "mongodb": "^1.2.8",
+    "nconf": "^0.6.9",
+    "openid": "^0.5.9",
+    "passport": "^0.2.1",
+    "passport-google": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "passport-openid": "^0.3.1",
+    "passport-strategy": "^1.0.0",
+    "pkginfo": "^0.3.0",
+    "pretty-data": "*",
+    "pretty-xml": "^1.2.1",
+    "redis": "^0.12.1",
+    "spdy": "^1.29.1",
+    "stylus": "^0.32.0",
+    "underscore": "^1.7.0"
+  }
+}

@@ -1,0 +1,19 @@
+
+{
+	"env" : "Production",
+
+	"app" : {
+					"port" 			: 7778,
+    				"use_cluster" 	: true
+		},
+	
+    "redis" 	: {
+    				"host": "localhost",
+    				"port": 6379
+    			  },
+    "mongodb" 	: {
+    				"host": "localhost" , 
+    				"port": 27019, 
+    				"name": "ksiazka2_starter"
+    			}
+}

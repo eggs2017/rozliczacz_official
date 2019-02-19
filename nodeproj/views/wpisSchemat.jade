@@ -1,0 +1,108 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        $(function(){ 
+        
+            $("div.title").mouseover(function () {
+                $(this).attr("class" , "title bordered");
+            })
+            .mouseleave(function() {
+                $(this).attr("class" , "title");
+            })
+            .click(function() {
+                window.location.href =  $(this).attr("link") ;
+            });
+            
+            
+             $(".action").mouseover(function (event) {
+                $(this).attr("class" , "action bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "action");
+            })
+            .click(function(event) {
+                window.location.href =  $(this).attr("link") ;
+            });
+            
+            
+             $(".option[link]").mouseover(function (event) { 
+                $(this).attr("class" , "option bolded");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "option");
+            })
+            .click(function(event) {
+                  window.location.href =  $(this).attr("link") ;
+            })
+            
+             //menu_item
+             $(".menu_item").mouseover(function (event) {
+                $(this).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                $('#form_obj').submit(); 
+            });
+            
+             //drag&drop  - save order of items
+            $( "#params" ).sortable({
+                stop: function( event, ui ) {
+                    
+                    var ids = "";
+                            var exist = false;
+                            $('div[paramid]').each(function(index){
+                                var pi = $(this).attr("paramid");
+                                if(ids.indexOf(pi) == -1 && pi.length > 0){
+                                    ids += pi + ",";
+                                    exist = true;
+                                }
+                            });
+                    if(exist){
+                                
+                                //remove ,
+                                ids = ids.slice(0,-1);
+                                //ajax communication
+                                $.ajax({
+                                    dataType: 'json',
+                                    type: "POST",
+                                    data:  {type: 'wpisSchemat', id: ids},
+                                    url: "/rozliczacz/relokuj"  
+                                }).done(function( msg ) {
+                                });
+                            }
+                        
+                }
+             });
+             $( "#params" ).disableSelection();
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="get"  , action="/rozliczacz/wpis_schemat/nowy/"+ refrok)
+        #menus
+            div.menu_item(id="add") Dodaj nowy
+            
+        - if( params.length > 0 )
+            #params
+                - each param, i in params
+                    div.param
+                        if ( param.deaktywuj == "on")
+                            div.title(id = param._id, link = "/rozliczacz/wpis_schemat/edytuj/" + param._id, paramid= param._id)
+                                del #{param.nazwa}*
+                        else
+                            div.title(id = param._id, link = "/rozliczacz/wpis_schemat/edytuj/" + param._id, paramid= param._id) #{param.nazwa}
+                            
+        -else if ( params.length == 0)
+            #edycja1    
+                div.menu
+                    #options
+                        div.option.title Kopiuj listę schematów z:
+                        - each rok_param in rok_arr
+                            - if(rok_param._id != refrok)
+                                div.option(link = "/rozliczacz/wpis_schemat/kopiuj/"+ rok_param._id + "/" +  refrok) #{rok_param.nazwa}  
+    #info
+        a.text1 * Jeden ze schematów został wykluczony.  
+                                
+                                

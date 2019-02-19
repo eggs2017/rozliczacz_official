@@ -1,0 +1,107 @@
+extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        $(function(){ 
+            $(".tr_cls").mouseover(function (event) {
+                $(this).removeClass("tbody_cls");
+                $(this).addClass("tbody_cls s");
+            })
+            .mouseleave(function (event) {
+                $(this).removeClass("tbody_cls s");
+                $(this).addClass("tbody_cls");
+            })
+           .click(function(event) {
+                window.location.href = $(this).attr("link") ;
+            });
+            
+             $(".action").mouseover(function (event) {
+                $(this).attr("class" , "action bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "action");
+               
+            })
+            .click(function(event) {
+                window.location.href =  $(event.target).attr("link") ;
+            });
+            
+            
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                $(this).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                $('#form_obj').submit();
+            });
+            
+             //drag&drop  - save order of items
+            $( "#sortable_grid" ).sortable({
+                stop: function( event, ui ) { 
+                    var ids = "";
+                            
+                            var exist = false;
+                            $('tr[paramid]').each(function(index){
+                                var pi = $(this).attr("paramid");
+                                if(ids.indexOf(pi) == -1 && pi.length > 0){
+                                    ids += pi + ",";
+                                    exist = true;
+                                }
+                            });
+                    if(exist){
+                                //remove ,
+                                ids = ids.slice(0,-1);
+                                //ajax communication
+                                $.ajax({
+                                    dataType: 'json',
+                                    type: "POST",
+                                    data:  {type: 'wpis', id: ids},
+                                    url: "/rozliczacz/relokuj"  
+                                });
+                            }
+                    $( ".tr_cls").stop();
+                }
+             });
+             $( "sortable_grid" ).disableSelection();
+            
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="get", action="/rozliczacz/wpis/nowy/"+ refmiesiac)
+        #menus
+            div.menu_item Dodaj nowy
+ 
+        #wpis
+            table.tb_cls
+                tbody.tbody_cls_header
+                        tr(id)
+                            td.data_cls Data 
+                            td.schemat_cls Schemat
+                            td.name_cls Nazwa 
+                            td.number_cls Numer 
+                            td.price_cls Cena Netto
+                            td.vat_cls Vat
+                            td.type_cls Typ
+                            
+                tbody.tbody_cls(id="sortable_grid")
+                    - each wpis, i in params
+                        tr.tr_cls(link="/rozliczacz/wpis/edytuj/" + wpis._id, paramid= wpis._id)
+                            td.data_cls #{wpis.data}
+
+                            if ( wpis.deaktywuj == "on")
+                                td.schemat_cls 
+                                    del #{wpis.schematNazwa} *
+                            else
+                                td.schemat_cls #{wpis.schematNazwa}
+                            
+
+                            td.name_cls #{wpis.nazwa}
+                            td.number_cls #{wpis.numer}
+                            td.price_cls #{wpis.cena} zł‚
+                            td.vat_cls #{Math.floor(wpis.vatstawka*100)} %
+                            td.type_cls #{wpis.typ == -1 ? "zakup" : ""}
+    #info
+        a.text1 * wpis jest wykluczony.

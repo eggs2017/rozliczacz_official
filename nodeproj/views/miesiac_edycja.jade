@@ -1,0 +1,37 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        $(function(){ 
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+        });
+    
+    include includes/logo
+    include includes/crumb
+    
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item Zapisz
+        #edycja1
+            div.menu
+                div.box
+                    div.title Miesiąc: 
+                    div.item
+                        input(type="text", name="nazwa", id="nazwa", value=param.nazwa)
+                div.box                 
+                        div.title Stałe odliczenie od podatku: 
+                        div.item
+                            input(type="text", name="odliczeniestawka", id="odliczeniestawka", value=(param.odliczeniestawka ? param.odliczeniestawka : ""))

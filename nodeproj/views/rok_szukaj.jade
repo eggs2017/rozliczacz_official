@@ -1,0 +1,109 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        function setActionButtonStatus(field){
+                element = $('#'+ field);
+                $("div[field='" + field+"']" ).each(function (i) {
+                    if ( $(this).attr("value") != element.val())
+                         $(this).attr("class" , "action");
+                    else
+                        $(this).attr("class" , "action bordered");
+                  });
+            }
+            
+        $(function(){ 
+            $(".action").mouseover(function (event) { 
+                elem = event.target;
+                $(elem).attr("class" , "action bolded");
+            })
+            .mouseleave(function(event) {
+                elem = event.target;
+                $(elem).attr("class" , "action");
+                
+                 $("input").each(function (i) {
+                    setActionButtonStatus($(this).attr("id"));
+                });
+                
+            })
+            .click(function(event) {
+                elem = event.target;
+                if($(elem).attr("field") != null){
+                    $("#"+$(elem).attr("field") ).val($(elem).attr("value"));
+                }
+                else
+                    window.location.href =  $(elem).attr("link") ;
+                    
+                     $("input").each(function (i) {
+                        setActionButtonStatus($(this).attr("id"));
+                });
+            });
+           
+            
+            $(window).load(function () {
+                $("input").each(function (i) {
+                    setActionButtonStatus($(this).attr("id"));
+                });
+                
+            });
+            
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+        });
+    include includes/logo
+    include includes/crumb
+        
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item Szukaj
+        #edycja1
+            input(type="hidden", name="_id", id="_id", value=params._id)
+            
+
+            div.menu 
+                div.box
+                    div.title Nazwa: 
+                    div.item
+                        input(type="text", name="crit", id="crit", value=crit)
+        #wpis
+            table.tb_cls
+                tbody.tbody_cls_header
+                        tr(id)
+                            td.data_cls Data 
+                            td.schemat_cls Schemat
+                            td.name_cls Nazwa 
+                            td.number_cls Numer 
+                            td.price_cls Cena Netto
+                            td.vat_cls Vat
+                            td.type_cls Typ
+                            
+                tbody.tbody_cls(id="sortable_grid")
+                    - each wpis, i in results
+                        tr.tr_cls(link="/rozliczacz/wpis/edytuj/" + wpis._id, paramid= wpis._id)
+                            td.data_cls #{wpis.data}
+
+                            if ( wpis.deaktywuj == "on")
+                                td.schemat_cls 
+                                    del #{wpis.schematNazwa} *
+                            else
+                                td.schemat_cls #{wpis.schematNazwa}
+                            
+
+                            td.name_cls #{wpis.nazwa}
+                            td.number_cls #{wpis.numer}
+                            td.price_cls #{wpis.cena} zł‚
+                            td.vat_cls #{wpis.vatstawka} %
+                            td.type_cls #{wpis.typ == -1 ? "zakup" : ""}
+            div.box Suma: #{total_sum.toFixed(2)} zł

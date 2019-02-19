@@ -1,0 +1,64 @@
+﻿extends layout
+block content
+    #printing
+        div
+            a.miesiac Nazwa Firmy
+            br
+            br
+            a.miesiac miesiąc: #{miesiac}
+               
+            table.tab
+                thead
+                        th.lp Lp. 
+                        th.data Data zdarzenia gospodarczego
+                        th.numer Nr dowodu księgowego 
+                        th.nazwa Kontrahent imię i nazwisko (firma) 
+                        th.nazwa Kontrahent Id (firma) 
+                        th.adres Kontrahent adres
+                        th.opis Opis zdarzenia gospodarczego                                               
+                        th.numer wartość sprzedanych towarów i usług
+                        th.numer pozostałe przychody
+                        th.numer Razem przychód
+                        th.nazwa zakup towarów handlowych i materiałów wg cen zakupu
+                        th.numer koszty uboczne zakupu                        
+                        th.numer koszty reprezentacji i reklamy objęte limitem
+                        th.numer wynagrodzenia w gotówce i naturze
+                        th.numer pozostałe wydatki
+                        th.numer Razem wydatki
+                tbody   
+                    - each wpis, i in param
+                        tr 
+                            td.lp #{i+1+ prev_id_count}
+                            td.data #{wpis.data}
+                            td.numer #{wpis.numer}
+                            td.nazwa #{wpis.nazwa}
+                            td.nazwa #{wpis.nip}
+                            td.adres #{wpis.adres}
+                            td.opis #{wpis.opis}
+                            -if (wpis.schematTyp > 0)
+                                td.numer #{wpis.cena} 
+                            td.numer
+                            -if (wpis.schematTyp > 0)
+                                td.numer #{wpis.cena} 
+                            td.numer
+                            td.numer
+                            td.numer
+                            td.numer
+                            td.numer
+                            td.numer
+                            -if (wpis.schematTyp < 0)
+                                td.numer #{wpis.cena} 
+                                td.numer #{wpis.cena} 
+                table.tab
+                    tfoot
+                        tr
+                            th.nazwa Suma przychodów
+                            th.nazwa Suma wydatków
+                
+                        tr
+                            td.numer #{sumap} zł
+                            td.numer #{sumaw} zł
+            
+        br             
+        div
+            a.miesiac miesiąc: #{miesiac}

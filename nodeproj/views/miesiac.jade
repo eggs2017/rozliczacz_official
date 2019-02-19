@@ -1,0 +1,87 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        $(function(){
+
+
+
+            $(".title").mouseover(function (event) {
+                $(this).attr("class" , "title bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "title");
+            })
+            .click(function(event) {
+                window.location.href =  $(this).attr("link") ;
+            });
+
+            $(".action").mouseover(function (event) {
+                $(this).attr("class" , "action bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "action");
+            })
+            .click(function(event) {
+                window.location.href =  $(this).attr("link") ;
+            });
+
+            //menu_item
+             $(".menu_item[id='add']").mouseover(function (event) {
+                $(this).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                $('#form_obj').submit();
+            });
+
+             //drag&drop  - save order of items
+
+            $( "#params" ).sortable({
+                stop: function( event, ui ) {
+
+                    var ids = "";
+                            var exist = false;
+                            $('div[paramid]').each(function(index){
+                                var pi = $(this).attr("paramid");
+                                if(ids.indexOf(pi) == -1 && pi.length > 0){
+                                    ids += pi + ",";
+                                    exist = true;
+                                }
+                            });
+                    if(exist){
+
+                                //remove ,
+                                ids = ids.slice(0,-1);
+                                //ajax communication
+                                $.ajax({
+                                    dataType: 'json',
+                                    type: "POST",
+                                    data:  {type: 'miesiac', id: ids},
+                                    url: "/rozliczacz/relokuj"
+                                }).done(function( msg ) {
+                                });
+                            }
+
+                }
+             });
+             $( "#params" ).disableSelection();
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="get"  , action="/rozliczacz/miesiac/nowy/"+ refrok)
+        #menus
+            div.menu_item(id="add") Dodaj nowy
+        #params
+            - each param , i in params
+                div.param
+                    div.title(link="/rozliczacz/wpis/"+ param._id , paramid= param._id, datasort=param.datasort) #{param.nazwa}
+
+                    div.menu
+                        div.action(link="/rozliczacz/miesiac/edytuj/"+ param._id) Edytuj
+                    div.menu
+                        div.action(link="/rozliczacz/miesiac/drukuj/"+ param._id) Drukuj
+                    div.menu
+                        div.action(link="/rozliczacz/miesiac/jpk_vat/"+ param._id) JPK_VAT 

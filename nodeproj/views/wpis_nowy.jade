@@ -1,0 +1,300 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+    
+        function setActionButtonStatus(field){
+                element = $('#'+ field);
+                $("div[field='" + field+"']" ).each(function (i) {
+                    if ( $(this).attr("value") != element.val())
+                         $(this).attr("class" , "option");
+                    else
+                        $(this).attr("class" , "option bordered");
+                  });
+        }
+        function setFocusOnEmpty(){
+             $("#form1").find("input[type=email], input[type=tel], input[type=text]").filter(function(){
+              if($(this).val() == ""){
+                 return true;
+              }
+            }).first().focus();
+        }  
+
+        function setSchemaStyle(_id){
+
+            $('#refschemat').val(_id); 
+            
+            //disable for others
+            $( ".option" ).each(function (i) {
+                if ( this.id != _id){
+                    $(this).css("background-color","#e4e7c1");
+                }
+                else{                    
+                    $(this).css("background-color", "#ebeb71");
+
+                }
+              });
+
+            $("#Zapisz").removeAttr("disabled"); 
+        }
+
+        function setFields4Name(name){
+
+                $.ajax({
+                      url: "/rozliczacz/wpis/ostatni_wpis",
+                      dataType: "jsonp",
+                      data: {
+                        param1: name
+                      },
+                      success: function( elem ) {
+                        //get nazwa,adres, opis
+                        $('#nazwa').val(elem.nazwa); 
+                        $('#nip').val(elem.nip); 
+                        
+                        $('#vatstawka').val(elem.vatstawka); 
+                        $('#vatodliczenie').val(elem.vatodliczenie); 
+
+                        $('#typ').val(elem.typ); 
+                        
+                        $('#adres').val(elem.adres); 
+                        $('#opis').val(elem.opis);
+
+                        //footer
+                        $('#foot_typ').text(elem.typ == -1 ? "zakup" : "sprzedaż");    
+                        $('#foot_vatstawka').text("Stawka Vat: " + Math.floor(elem.vatstawka *100) + "%");
+                        $('#foot_vatodliczenie').text(elem.vatodliczenie == 0.5 ?   "odliczenie 50%" : "pełne" );
+
+                        //set schemat button active
+                        setSchemaStyle(elem.refschemat);
+                        $("#numer").focus();
+                      }
+                    });
+
+                
+        }
+             
+            
+        $(function(){   
+
+             //autocomplete
+                $( "#nazwa" ).autocomplete({
+                  source: function( request, response ) {
+                    $.ajax({
+                      url: "/rozliczacz/wpis/nazwy",
+                      dataType: "jsonp",
+                      data: {
+                        param1: request.term
+                      },
+                      success: function( data ) {
+                        response( data ); 
+                      }
+                    });
+                  },
+                  minLength: 3,
+                  select: function( event, ui ) {
+                      setFields4Name(ui.item.value);
+                  },
+                  open: function() {
+                    $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                  },
+                  close: function() {
+                    $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                  }
+                });
+                //autocomplete 
+
+            $('#data').datepicker(
+           {
+                dateFormat : 'yy-mm-dd'
+           });
+            
+            $(".option").click(function (event) {
+                _id = this.id;
+                elem = $(".option#"+_id);
+
+                //get nazwa,adres, opis
+                $('#nazwa').val(elem.attr('firma')); 
+                $('#nip').val(elem.attr('nip')); 
+                
+                $('#vatstawka').val(elem.attr('vatstawka')); 
+                $('#vatodliczenie').val(elem.attr('vatodliczenie')); 
+
+                $('#typ').val(elem.attr('typ')); 
+                
+                $('#adres').val(elem.attr('adres')); 
+                $('#opis').val(elem.attr('opis')); 
+                
+
+                //footer
+                $('#foot_typ').text(elem.attr('typ') == -1 ? "zakup" : "sprzedaż");    
+                $('#foot_vatstawka').text("Stawka Vat: " + Math.floor(elem.attr('vatstawka')*100) + "%");
+                $('#foot_vatodliczenie').text(elem.attr('vatodliczenie') == 0.5 ?   "odliczenie 50%" : "pełne" );
+
+                setSchemaStyle(_id);
+                $("#numer").focus();
+                
+            });
+            
+           
+                
+                
+            $(".option").mouseover(function (event) { 
+                elem = event.target;
+                $(elem).attr("class" , "option bolded");
+            })
+            .mouseleave(function(event) {
+                elem = event.target;
+                $(elem).attr("class" , "option");
+                
+                 $("input").each(function (i) {
+                    setActionButtonStatus($(this).attr("id"));
+                });
+                
+            })
+            
+            $(document).ready(function(){
+                $( ".option" ).each(function (i) {
+                    if ( this.id != $('#refschemat').val())
+                        $(this).attr("class","option"); 
+                    else
+                        $(this).attr("class","option bordered"); 
+                  });
+                  
+                 $("#numer").focus();
+                
+            });
+            
+            $("#data").focusout(function(){
+                if($(this).val().length < 8){
+                    dt = new Date();
+                    
+                    var ld = new Date(dt.getFullYear(), dt.getMonth() + 1, 0).getDate();
+                    
+                    if($(this).val() > ld)
+                        $(this).val(ld);
+                        
+                    $(this).val( dt.getFullYear() + "-" + (dt.getMonth() < 10 ? "0" +  dt.getMonth() +1: dt.getMonth()+1) + "-" 
+                        + ($(this).val().length == 1 ? "0" + $(this).val() : $(this).val() ));
+                }
+                
+            });
+            
+            
+            
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                var elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               var elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                var elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+            
+            //validation
+            
+            
+            FormValidator.prototype.setMessages = function(messages) {
+                this.messages = messages;
+                // return this for chaining
+                return this;
+            };
+    
+            var validator = new FormValidator('form_obj', [{
+            name: 'refschemat',
+            display: 'schemat',    
+            rules: 'required'}
+            ], function(errors, evt) {
+                if (errors.length > 0) {
+                    var sel_errors = $('.error_box');
+                    var sel_succ = $('.success_box');
+                    if (errors.length > 0) {
+                        sel_errors.empty();
+                        for (var i = 0, errorLength = errors.length; i < errorLength; i++) {
+                            sel_errors.append(errors[i].message + '<br />');
+                            console.log(sel_errors.val());
+                        }
+                        sel_succ.css({ display: 'none' });
+                        sel_errors.fadeIn("slow");
+                    } else {
+                        sel_errors.css({ display: 'none' });
+                        sel_succ.fadeIn("slow");
+                    }
+                    if (evt && evt.preventDefault) {
+                        evt.preventDefault();
+                    } else if (event) {
+                        event.returnValue = false;
+                    } 
+                   
+                }
+            });
+            validator.setMessages({
+                    required : 'Pole %s jest wymagane.',
+                    valid_email: 'Pole %s musi zawierać poprawny adres mailowy.',
+                });
+                
+        });
+        
+        
+    include includes/logo
+    include includes/crumb
+    
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item(id="Zapisz", disabled) Utwórz
+            div.success_box
+            div.error_box
+        #edycja1
+            div.menu
+                #options
+                    div.option
+                        p Wybierz schemat:
+                    - each wpis_schema in wpisy_schema
+                        div.option(id=wpis_schema._id, value = wpis_schema.vatstawka * 100, mnoz = wpis_schema.typ, firma=wpis_schema.firma, adres=wpis_schema.adres, opis =wpis_schema.opis, nip=wpis_schema.nip, vatstawka=wpis_schema.vatstawka, typ=wpis_schema.typ, vatodliczenie=wpis_schema.vatodliczenie ) #{wpis_schema.nazwa}
+                   
+            div.menu
+                input(type="hidden", name="refmies", id="refmies", value=refmies )
+                input(type="hidden", name="refschemat", id="refschemat")
+                input(type="hidden", name="vatstawka", id="vatstawka")
+                input(type="hidden", name="vatodliczenie", id="vatodliczenie")
+                input(type="hidden", name="typ", id="typ")
+                
+                div.box
+                    div.title(title="Podaj w formacie 2001-12-31, Możesz podać tylko dzień miesiąca, reszta zostanie dopelniona automatycznie.") Data: 
+                    div.item
+                        input(type="text", name="data", id="data", value =data_init)
+                div.box
+                    div.title Numer dokumentu: 
+                    div.item
+                        input(type="text", name="numer", id="numer")
+                div.box
+                    div.title Nazwa: 
+                    div.item
+                        input(type="text" ,name="nazwa" ,id="nazwa")
+                div.box
+                    div.title Nip: 
+                    div.item
+                        input(type="text", name="nip", id="nip")
+                div.box
+                    div.title Adres: 
+                    div.item
+                        input(type="text", name="adres", id="adres")
+                div.box
+                    div.title Opis: 
+                    div.item
+                        input(type="text", name="opis", id="opis")
+                div.box
+                    div.title Cena: 
+                    div.item
+                        input.cena(type="text", name="cena", id="cena")
+
+                #options
+                    div.option(id='foot_typ')
+                    div.option(id='foot_vatstawka')
+                    div.option(id='foot_vatodliczenie')
+        

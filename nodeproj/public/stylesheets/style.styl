@@ -1,0 +1,411 @@
+body
+  font-family "Helvetica Neue", "Lucida Grande", "Arial"
+  text-align center
+  background #eee
+h1, h2
+  margin 10px
+  font-size 20px
+  color #343434
+  text-stroke 1px rgba(255, 255, 255, 0.1)
+h1
+  text-shadow 1px 2px 2px #ddd
+  font-size 15px
+
+/*
+lista wpisów, oraz tabeli
+*/
+#wpis
+    overflow auto
+    float center
+    width 650px
+    margin 3px auto
+    font-size 12px
+    border-radius 5px
+    padding 6px
+    background rgb(197, 199, 175)
+    
+    .tb_cls 
+        width  100%
+        border-spacing 0px 2px
+    .tbody_cls_header
+        border-radius 5px
+    .tbody_cls
+        border 1px solid #ccc
+        background rgb(235, 235, 113)
+        border-radius 5px
+    .tbody_cls.s
+            background #DADA6B
+            cursor pointer
+            
+    .tr_cls 
+        width  100%
+    .data_cls
+        width 10%
+        text-align left
+        float left
+    .schemat_cls
+        width 15%
+        text-align left
+        float left
+    .name_cls
+        width 15%
+        text-align right
+        float left
+    .number_cls
+        width 25%
+        text-align right
+        float left
+    .price_cls
+        width 15%
+        text-align right
+        float left
+    .vat_cls
+        width 10%
+        text-align center 
+        float left
+    .type_cls
+        width 5%
+        text-align right 
+        float left
+/*
+opakowanie klocków
+    params - glowny klocek
+        param - caly rok z klockiem do klikniecia i innymi guzikami
+        title - klocek do klikniecia
+    menu - div menu
+        action guzik akcji
+*/     
+#params
+    overflow auto
+    float center
+    width 650px
+    margin 3px auto;
+    padding 6px
+    background rgb(197, 199, 175)
+    font-size 13px
+    border-radius 5px
+    .param
+        overflow auto
+        float center
+        background-color #ffa
+        text-align center
+        margin 8px auto
+        padding 10px
+        border-radius 5px
+        cursor move
+        .title
+            float left
+            min-width 70%
+            background-color rgb(235, 235, 113)
+            padding 8px
+            border-radius 5px
+            cursor pointer
+        .title.bordered
+            font-weight bold
+            background-color rgb(218, 218, 107)     
+        /*
+        .item
+            font-size 10px
+            background-color rgb(235, 235, 113)
+            margin 10px auto
+            padding 8px
+            border-radius 5px
+            cursor pointer
+        .item.bordered
+            font-weight bold
+            background-color rgb(218, 218, 107) 
+        */ 
+        .menu
+            float right
+            padding 2px
+            .action
+                font-size 10px
+                min-width 20px
+                text-align center
+                background-color rgb(235, 235, 113)
+                border-radius 5px    
+                padding 4px
+                margin 4px
+                cursor pointer
+            .action.bordered
+                font-weight bold
+                background-color rgb(218, 218, 107)
+            .action.bolded
+                font-weight bold
+            
+/*
+    podsumowanie - glowny klocek
+        param - pod klocek miesiaca
+            title - nazwa miesiaca
+            menu - duzy klocek kwotowy (przychod i wydatek)
+                item - klocek jednostkowy
+*/             
+#podsumowanie
+    overflow auto
+    float center
+    width 650px
+    margin 15px auto;
+    padding 6px
+    background-color rgb(197, 199, 175)
+    font-size 13px
+    border-radius 5px
+    .param
+        overflow auto
+        float center
+        background-color #ffa
+        text-align center
+        margin 8px auto
+        padding 10px
+        border-radius 5px
+        font-size 13px
+        .title
+            font-weight bold
+            background-color rgb(235, 235, 113)
+            margin 10px auto
+            padding 8px
+            border-radius 5px
+        .menu
+            float left
+            margin 0px 5px auto
+            .item
+                font-size 10px
+                background-color rgb(235, 235, 113)
+                margin 10px auto
+                padding 8px
+                border-radius 5px
+                
+            .item.itemHidden
+                padding 4px
+                visibility hidden
+            .item.itemGrey
+                background-color #c5c7af
+                
+            .menu_item
+                background-color #FFFFAA
+                cursor pointer
+
+            .menu_item.bordered
+                background-color   #EBEB71
+       
+              
+#table
+    .table1
+        background-color  #EBEB71
+        border 1px solid green
+        display none
+        margin 1px auto
+        overflow auto
+        
+/*
+    crumbs - caly klocek
+        crumb - maly klocek
+*/
+#crumbs
+    overflow auto
+    float center
+    width 650px
+    margin 15px auto 10px
+    padding 6px
+    background rgb(197, 199, 175)
+    font-size 11px
+    border-radius 5px
+    .crumb
+        overflow auto
+        float left
+        background rgb(228, 231, 193)
+        text-align center
+        margin 2px 3px
+        padding 4px
+        border-radius 5px
+
+/*
+    menu - g³ówny klocek dostêpnych akcji np. Nowy
+        menu_item - klocek akcji
+        
+*/
+#menus
+    overflow auto
+    float center
+    width 650px
+    margin 15px auto 10px
+    padding 6px
+    background rgb(197, 199, 175)
+    font-size 11px
+    border-radius 5px
+    .menu_item
+        float right
+        width 80px
+        background rgb(228, 231, 193)
+        margin 2px 3px
+        padding 6px
+        border-radius 8px
+        cursor pointer
+    .menu_item.bordered
+        font-weight bold
+        background-color  rgb(226, 228, 210)
+    .success_box
+        color #000000
+        display none
+    .error_box
+        width 280px
+        color #444444;
+        background #E5F341
+        border 1px solid #A75B4E
+        border-radius 5px
+        color #444444
+        display none
+        font-size 13px
+        padding 8px 8px
+        
+/*
+   Listwa wyboru 
+*/ 
+#options
+    overflow auto
+    float center
+    width 550px
+    background rgb(197, 199, 165)
+    font-size 11px
+    border-radius 5px
+    .option
+        float left
+        margin 2px 3px
+        background rgb(228, 231, 193)
+        text-align center
+        padding 4px
+        border-radius 5px
+        cursor pointer
+    .option.title
+        font-weight bold
+    .option.bordered
+        font-weight bold
+        background-color rgb(218, 218, 107)
+    .option.bolded
+        font-weight bold
+
+/*
+    Panele edycji / Nowy
+        edycja - g³owny klocek
+            menu podklocek (?? niepotrzebny)
+                box - klocek opisu i wartosœci
+                    item
+                    title
+*/        
+#edycja1
+    overflow auto
+    width 650px
+    margin 5px auto 10px
+    background rgb(197, 199, 175)
+    font-size 13px
+    padding 6px
+    border-radius 5px
+    .menu
+        background-color #c5c7af
+        padding 10px
+        .box
+            overflow auto
+            padding 4px
+            .title
+                float left
+                margin-right  5px 
+                margin-top  5px 
+                text-align right
+                padding 5px
+                width 80px
+                background-color #e4e7c1
+            .item
+                float left
+                margin  left 5px 
+                margin-top  5px 
+                padding 5px
+                background-color #e4e7c1
+                .cena
+                   size 10
+                   maxlength 4    
+            .action
+                float right
+                min-width 20px
+                margin 2px
+                font-size 10px
+                padding 5px
+                text-align center
+                background-color rgb(235, 235, 113)
+                cursor pointer
+            .action.left
+                float left
+            .action.bordered
+                font-weight bold
+                background-color rgb(218, 218, 107)
+                
+            .action.bolded
+                font-weight bold
+
+
+/*
+    G³ówny panel logo
+*/                
+#logo
+    overflow auto
+    width 650px
+    margin 15px auto 10px
+    padding 6px
+    font-size 14px
+    font-weight bold
+    border-radius 5px
+    background rgb(197, 199, 175)
+    .main_logo
+        float left
+    .reverse_mail
+        unicode-bidi bidi-override
+        direction rtl
+        font-size 10px
+        text-align right
+        color rgb(174, 175, 157)
+        overflow auto
+        background #c5c7af
+        margin 2px 2px
+        padding 4px
+        border-radius 2px
+    .logging
+        font-size 10px
+        text-align right
+
+#info
+    .text1
+        font-size 12px
+        font-style italic;  
+/*
+    Do druku
+*/ 
+#printing
+    .miesiac
+        font-size 18px
+        font-weight bold
+        text-align center
+    .tab
+        border 1px solid black
+        border-collapse collapse 
+    .h1
+        text-align center
+    .lp 
+        width 4%
+        border 1px solid black
+    .data
+        width 7%
+        border 1px solid black
+        
+    .numer
+        width 10%
+        border 1px solid black
+    .nazwa
+        width 15%
+        border 1px solid black
+    .adres
+        width 30%
+        border 1px solid black
+    .opis
+        width 15%
+        border 1px solid black
+    .nazwa_span3
+        colspan "3"
+        

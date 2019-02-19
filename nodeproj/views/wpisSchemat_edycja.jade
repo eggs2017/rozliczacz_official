@@ -1,0 +1,128 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        function setActionButtonStatus(field){
+                element = $('#'+ field);
+                $("div[field='" + field+"']" ).each(function (i) {
+                    if ( $(this).attr("value") != element.val())
+                         $(this).attr("class" , "action");
+                    else
+                        $(this).attr("class" , "action bordered");
+                  });
+            }
+            
+        $(function(){ 
+        
+        $('#przychod').change(function(){
+            $('#typ').val($('#przychod').val()); 
+        });
+        $('#wydatek').change(function(){
+            $('#typ').val($('#wydatek').val()); 
+        });
+        
+        $(".action").mouseover(function (event) { 
+                elem = event.target;
+                $(elem).attr("class" , "action bolded");
+            })
+            .mouseleave(function(event) {
+                elem = event.target;
+                $(elem).attr("class" , "action");
+                
+                $("input").each(function (i) {setActionButtonStatus($(this).attr("id"));});
+            })
+            .click(function(event) {
+                elem = event.target;
+                if($(elem).attr("field") != null){
+                    $("#"+$(elem).attr("field") ).val($(elem).attr("value"));
+                }
+                else
+                    window.location.href =  $(elem).attr("link") ;
+                    
+                $("input").each(function (i) {setActionButtonStatus($(this).attr("id"));});
+            });
+            
+            $(window).load(function () {
+                $("input").each(function (i) {
+                    setActionButtonStatus($(this).attr("id"));
+                });
+            });
+            
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+                
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item Zapisz
+        #edycja1
+            input(type="hidden", name="typ", id="typ", value = param.typ)
+            div.menu
+                div.box
+                    div.title Nazwa: 
+                    div.item
+                        input(type="text", name="nazwa", id="nazwa" , value=param.nazwa)
+                div.box
+                    div.title Stawka Vat: 
+                    div.item
+                        input(type="hidden", name="vatstawka", id="vatstawka", value=param.vatstawka)
+                        div.action(field="vatstawka", value="0.23") 23%
+                        div.action(field="vatstawka", value="0.07") 7%
+                        div.action(field="vatstawka", value="0.00") 0%
+                div.box
+                    div.title Typ: 
+                    div.item
+                        - if ( param.typ == "1")
+                            input(type="radio", name="typ_radio", id="przychod", value = "1" ,checked = true)
+                            a przychód 
+                            input(type="radio", name="typ_radio", id="wydatek", value = "-1")
+                            a wydatek
+                        - else
+                            input(type="radio", name="typ_radio", id="przychod", value = "1" )
+                            a przychód
+                            input(type="radio", name="typ_radio", id="wydatek", value = "-1", checked = true)
+                            a wydatek
+                div.box
+                    div.title Firma: 
+                    div.item
+                        input(type="text", name="firma", id="firma", value=param.firma)
+                div.box
+                    div.title Nip: 
+                    div.item
+                        input(type="text", name="nip", id="nip", value=param.nip)
+                div.box
+                    div.title(title="Podaj w formacie: ulica nr, kod miasto") Adres: 
+                    div.item
+                        input(type="text", name="adres", id="adres", value=param.adres)
+                div.box
+                    div.title Opis: 
+                    div.item 
+                        input(type="text", name="opis", id="opis", value=param.opis)
+                div.box
+                    div.title Odliczenie Vat: 
+                    div.item
+                        input(type="hidden", name="vatodliczenie", id="vatodliczenie", value=param.vatodliczenie)
+                        div.action(field="vatodliczenie", value="0.50") 50%
+                        div.action(field="vatodliczenie", value="0") pełne           
+                div.box
+                    div.title(title="Deaktywacja powoduje wyłączenie schematu z cyklu obliczeń") Wyklucz z obliczeń
+                    div.item
+                        input(type="checkbox",name="deaktywuj",id="deaktywuj",checked = param.deaktywuj)
+                div.box
+                    div.title(title="Aktualizuje wszystkie dotychczasowe wpisy, jeśli pole w schemacie jest puste to nie jest aktualizowane") Aktualizuj wpisy przy zapisie: 
+                    div.item
+                        input(type="checkbox", name="aktualizuj", id="aktualizuj", checked = true)

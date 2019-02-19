@@ -1,0 +1,106 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+    
+        function setActionButtonStatus(field){
+                element = $('#'+ field);
+                $("div[field='" + field+"']" ).each(function (i) {
+                    if ( $(this).attr("value") != element.val())
+                         $(this).attr("class" , "action");
+                    else
+                        $(this).attr("class" , "action bordered");
+                  });
+            }
+            
+        $(function(){ 
+            $(".action").mouseover(function (event) { 
+                elem = event.target;
+                $(elem).attr("class" , "action bolded");
+            })
+            .mouseleave(function(event) {
+                elem = event.target;
+                $(elem).attr("class" , "action");
+                
+                 $("input").each(function (i) {
+                    setActionButtonStatus($(this).attr("id"));
+                });
+                
+            })
+            .click(function(event) {
+                elem = event.target;
+                if($(elem).attr("field") != null){
+                    $("#"+$(elem).attr("field") ).val($(elem).attr("value"));
+                }
+                else
+                    window.location.href =  $(elem).attr("link") ;
+                    
+                     $("input").each(function (i) {
+                        setActionButtonStatus($(this).attr("id"));
+                });
+            });
+           
+            
+            $(window).load(function () {
+                $("input").each(function (i) {
+                    setActionButtonStatus($(this).attr("id"));
+                });
+                
+            });
+            
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+            
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item Zapisz
+        #edycja1
+            input(type="hidden", name="_id", id="_id", value=params._id)
+
+            div.menu 
+                div.box
+                    div.action(id = params._id, link = "/rozliczacz/wpis_schemat/"+ params._id) Edytuj listę schematów
+                div.box
+                    div.title Nazwa: 
+                    div.item
+                        input(type="text", name="nazwa", id="nazwa", value=params.nazwa)
+                div.box
+                    div.title  Kwota pomniejszająca podatek:
+                    div.item
+                        input(type="text", name="kwotawolna", id="kwotawolna", value=params.kwotawolna)
+                div.box
+                    div.title Stawka podatku: 
+                    div.item
+                        input(type="hidden", name="podatekstawka", id="podatekstawka", value=params.podatekstawka)
+                        div.action(field="podatekstawka", value="0.99") 99% ;-)
+                        div.action(field="podatekstawka", value="0.20") 20%
+                        div.action(field="podatekstawka", value="0.19") 19%
+                        div.action(field="podatekstawka", value="0.18") 18%
+                        
+                div.box
+                    div.title Stałe odliczenie od podatku (ubezp.społ.): 
+                    div.item
+                        input(type="text", name="odliczeniestawka", id="odliczeniestawka", value=params.odliczeniestawka)
+                    
+                div.box
+                    div.title Płacę vat-7 co: 
+                    div.item
+                        input(type="hidden", name="dzielnik_vat", id="dzielnik_vat", value=params.dzielnik_vat)
+                        div.action(field="dzielnik_vat", value="3") kwartał 
+                        div.action(field="dzielnik_vat", value="1") miesiąc
+                

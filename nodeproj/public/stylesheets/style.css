@@ -1,0 +1,461 @@
+body {
+  font-family: "Helvetica Neue", "Lucida Grande", "Arial";
+  text-align: center;
+  background: #eee;
+}
+h1,
+h2 {
+  margin: 10px;
+  font-size: 20px;
+  color: #343434;
+  text-stroke: 1px rgba(255,255,255,0.1);
+}
+h1 {
+  text-shadow: 1px 2px 2px #ddd;
+  font-size: 15px;
+}
+/*
+lista wpis�w, oraz tabeli
+*/
+#wpis {
+  overflow: auto;
+  float: center;
+  width: 650px;
+  margin: 3px auto;
+  font-size: 12px;
+  border-radius: 5px;
+  padding: 6px;
+  background: #c5c7af;
+}
+#wpis .tb_cls {
+  width: 100%;
+  border-spacing: 0px 2px;
+}
+#wpis .tbody_cls_header {
+  border-radius: 5px;
+}
+#wpis .tbody_cls {
+  border: 1px solid #ccc;
+  background: #ebeb71;
+  border-radius: 5px;
+}
+#wpis .tbody_cls.s {
+  background: #dada6b;
+  cursor: pointer;
+}
+#wpis .tr_cls {
+  width: 100%;
+}
+#wpis .data_cls {
+  width: 10%;
+  text-align: left;
+  float: left;
+}
+#wpis .schemat_cls {
+  width: 15%;
+  text-align: left;
+  float: left;
+}
+#wpis .name_cls {
+  width: 15%;
+  text-align: right;
+  float: left;
+}
+#wpis .number_cls {
+  width: 25%;
+  text-align: right;
+  float: left;
+}
+#wpis .price_cls {
+  width: 15%;
+  text-align: right;
+  float: left;
+}
+#wpis .vat_cls {
+  width: 10%;
+  text-align: center;
+  float: left;
+}
+#wpis .type_cls {
+  width: 5%;
+  text-align: right;
+  float: left;
+}
+/*
+opakowanie klock�w
+    params - glowny klocek
+        param - caly rok z klockiem do klikniecia i innymi guzikami
+        title - klocek do klikniecia
+    menu - div menu
+        action guzik akcji
+*/
+#params {
+  overflow: auto;
+  float: center;
+  width: 650px;
+  margin: 3px auto;
+  padding: 6px;
+  background: #c5c7af;
+  font-size: 13px;
+  border-radius: 5px;
+}
+#params .param {
+  overflow: auto;
+  float: center;
+  background-color: #ffa;
+  text-align: center;
+  margin: 8px auto;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: move;
+/*
+        .item
+            font-size 10px
+            background-color rgb(235, 235, 113)
+            margin 10px auto
+            padding 8px
+            border-radius 5px
+            cursor pointer
+        .item.bordered
+            font-weight bold
+            background-color rgb(218, 218, 107) 
+        */
+}
+#params .param .title {
+  float: left;
+  min-width: 70%;
+  background-color: #ebeb71;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#params .param .title.bordered {
+  font-weight: bold;
+  background-color: #dada6b;
+}
+#params .param .menu {
+  float: right;
+  padding: 2px;
+}
+#params .param .menu .action {
+  font-size: 10px;
+  min-width: 20px;
+  text-align: center;
+  background-color: #ebeb71;
+  border-radius: 5px;
+  padding: 4px;
+  margin: 4px;
+  cursor: pointer;
+}
+#params .param .menu .action.bordered {
+  font-weight: bold;
+  background-color: #dada6b;
+}
+#params .param .menu .action.bolded {
+  font-weight: bold;
+}
+/*
+    podsumowanie - glowny klocek
+        param - pod klocek miesiaca
+            title - nazwa miesiaca
+            menu - duzy klocek kwotowy (przychod i wydatek)
+                item - klocek jednostkowy
+*/
+#podsumowanie {
+  overflow: auto;
+  float: center;
+  width: 650px;
+  margin: 15px auto;
+  padding: 6px;
+  background-color: #c5c7af;
+  font-size: 13px;
+  border-radius: 5px;
+}
+#podsumowanie .param {
+  overflow: auto;
+  float: center;
+  background-color: #ffa;
+  text-align: center;
+  margin: 8px auto;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+#podsumowanie .param .title {
+  font-weight: bold;
+  background-color: #ebeb71;
+  margin: 10px auto;
+  padding: 8px;
+  border-radius: 5px;
+}
+#podsumowanie .param .menu {
+  float: left;
+  margin: 0px 5px auto;
+}
+#podsumowanie .param .menu .item {
+  font-size: 10px;
+  background-color: #ebeb71;
+  margin: 10px auto;
+  padding: 8px;
+  border-radius: 5px;
+}
+#podsumowanie .param .menu .item.itemHidden {
+  padding: 4px;
+  visibility: hidden;
+}
+#podsumowanie .param .menu .item.itemGrey {
+  background-color: #c5c7af;
+}
+#podsumowanie .param .menu .menu_item {
+  background-color: #ffa;
+  cursor: pointer;
+}
+#podsumowanie .param .menu .menu_item.bordered {
+  background-color: #ebeb71;
+}
+#table .table1 {
+  background-color: #ebeb71;
+  border: 1px solid #008000;
+  display: none;
+  margin: 1px auto;
+  overflow: auto;
+}
+/*
+    crumbs - caly klocek
+        crumb - maly klocek
+*/
+#crumbs {
+  overflow: auto;
+  float: center;
+  width: 650px;
+  margin: 15px auto 10px;
+  padding: 6px;
+  background: #c5c7af;
+  font-size: 11px;
+  border-radius: 5px;
+}
+#crumbs .crumb {
+  overflow: auto;
+  float: left;
+  background: #e4e7c1;
+  text-align: center;
+  margin: 2px 3px;
+  padding: 4px;
+  border-radius: 5px;
+}
+/*
+    menu - g��wny klocek dost�pnych akcji np. Nowy
+        menu_item - klocek akcji
+        
+*/
+#menus {
+  overflow: auto;
+  float: center;
+  width: 650px;
+  margin: 15px auto 10px;
+  padding: 6px;
+  background: #c5c7af;
+  font-size: 11px;
+  border-radius: 5px;
+}
+#menus .menu_item {
+  float: right;
+  width: 80px;
+  background: #e4e7c1;
+  margin: 2px 3px;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#menus .menu_item.bordered {
+  font-weight: bold;
+  background-color: #e2e4d2;
+}
+#menus .success_box {
+  color: #000;
+  display: none;
+}
+#menus .error_box {
+  width: 280px;
+  color: #444;
+  background: #e5f341;
+  border: 1px solid #a75b4e;
+  border-radius: 5px;
+  color: #444;
+  display: none;
+  font-size: 13px;
+  padding: 8px 8px;
+}
+/*
+   Listwa wyboru 
+*/
+#options {
+  overflow: auto;
+  float: center;
+  width: 550px;
+  background: #c5c7a5;
+  font-size: 11px;
+  border-radius: 5px;
+}
+#options .option {
+  float: left;
+  margin: 2px 3px;
+  background: #e4e7c1;
+  text-align: center;
+  padding: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#options .option.title {
+  font-weight: bold;
+}
+#options .option.bordered {
+  font-weight: bold;
+  background-color: #dada6b;
+}
+#options .option.bolded {
+  font-weight: bold;
+}
+/*
+    Panele edycji / Nowy
+        edycja - g�owny klocek
+            menu podklocek (?? niepotrzebny)
+                box - klocek opisu i wartos�ci
+                    item
+                    title
+*/
+#edycja1 {
+  overflow: auto;
+  width: 650px;
+  margin: 5px auto 10px;
+  background: #c5c7af;
+  font-size: 13px;
+  padding: 6px;
+  border-radius: 5px;
+}
+#edycja1 .menu {
+  background-color: #c5c7af;
+  padding: 10px;
+}
+#edycja1 .menu .box {
+  overflow: auto;
+  padding: 4px;
+}
+#edycja1 .menu .box .title {
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  text-align: right;
+  padding: 5px;
+  width: 80px;
+  background-color: #e4e7c1;
+}
+#edycja1 .menu .box .item {
+  float: left;
+  margin: left 5px;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: #e4e7c1;
+}
+#edycja1 .menu .box .item .cena {
+  size: 10;
+  maxlength: 4;
+}
+#edycja1 .menu .box .action {
+  float: right;
+  min-width: 20px;
+  margin: 2px;
+  font-size: 10px;
+  padding: 5px;
+  text-align: center;
+  background-color: #ebeb71;
+  cursor: pointer;
+}
+#edycja1 .menu .box .action.left {
+  float: left;
+}
+#edycja1 .menu .box .action.bordered {
+  font-weight: bold;
+  background-color: #dada6b;
+}
+#edycja1 .menu .box .action.bolded {
+  font-weight: bold;
+}
+/*
+    G��wny panel logo
+*/
+#logo {
+  overflow: auto;
+  width: 650px;
+  margin: 15px auto 10px;
+  padding: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  background: #c5c7af;
+}
+#logo .main_logo {
+  float: left;
+}
+#logo .reverse_mail {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  font-size: 10px;
+  text-align: right;
+  color: #aeaf9d;
+  overflow: auto;
+  background: #c5c7af;
+  margin: 2px 2px;
+  padding: 4px;
+  border-radius: 2px;
+}
+#logo .logging {
+  font-size: 10px;
+  text-align: right;
+}
+#info .text1 {
+  font-size: 12px;
+  font-style: italic;
+}
+/*
+    Do druku
+*/
+#printing .miesiac {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+#printing .tab {
+  border: 1px solid #000;
+  border-collapse: collapse;
+}
+#printing .h1 {
+  text-align: center;
+}
+#printing .lp {
+  width: 4%;
+  border: 1px solid #000;
+}
+#printing .data {
+  width: 7%;
+  border: 1px solid #000;
+}
+#printing .numer {
+  width: 10%;
+  border: 1px solid #000;
+}
+#printing .nazwa {
+  width: 15%;
+  border: 1px solid #000;
+}
+#printing .adres {
+  width: 30%;
+  border: 1px solid #000;
+}
+#printing .opis {
+  width: 15%;
+  border: 1px solid #000;
+}
+#printing .nazwa_span3 {
+  colspan: "3";
+}

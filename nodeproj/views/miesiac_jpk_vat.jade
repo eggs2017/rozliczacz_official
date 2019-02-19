@@ -1,0 +1,51 @@
+tns:JPK(xmlns:etd = "http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" , xmlns:tns="http://jpk.mf.gov.pl/wzor/2017/11/13/1113/",  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance")
+  tns:Naglowek
+    tns:KodFormularza(kodSystemowy = "JPK_VAT (3)", wersjaSchemy = "1-1") JPK_VAT
+    tns:WariantFormularza 3
+    tns:CelZlozenia 0
+    tns:DataWytworzeniaJPK #{dataU}
+    tns:DataOd #{dataOd}
+    tns:DataDo #{dataDo}
+    tns:NazwaSystemu rozliczacz
+
+  tns:Podmiot1
+    tns:NIP XXXXXXXXX
+    tns:PelnaNazwa XXXX XXXXXX
+    tns:Email XXXXX@gmail.com
+
+  - var foo = 0
+  - each wpis, i in param
+    -if (wpis.typ > 0)
+      tns:SprzedazWiersz
+        tns:LpSprzedazy #{++foo}
+        tns:NrKontrahenta #{wpis.nip}
+        tns:NazwaKontrahenta #{wpis.nazwa}
+        tns:AdresKontrahenta #{wpis.adres}
+        tns:DowodSprzedazy #{wpis.numer}
+        tns:DataWystawienia #{wpis.data}
+        tns:DataSprzedazy #{wpis.data}
+        tns:K_19 #{wpis.cena}
+        tns:K_20 #{wpis.vat3}
+
+
+  tns:SprzedazCtrl
+    tns:LiczbaWierszySprzedazy #{foo}
+    tns:PodatekNalezny #{sumaPVat}
+
+  - var fooZ = 0
+  - each wpis, i in param
+    -if (wpis.typ < 0)
+      tns:ZakupWiersz
+        tns:LpZakupu #{++fooZ}
+        tns:NrDostawcy #{wpis.nip}
+        tns:NazwaDostawcy #{wpis.nazwa}
+        tns:AdresDostawcy #{wpis.adres}
+        tns:DowodZakupu #{wpis.numer}
+        tns:DataZakupu #{wpis.data}
+        tns:DataWplywu #{wpis.data}
+        tns:K_45 #{wpis.cena}
+        tns:K_46 #{wpis.vat3}
+
+  tns:ZakupCtrl
+    tns:LiczbaWierszyZakupow #{fooZ}
+    tns:PodatekNaliczony #{sumaWVat}

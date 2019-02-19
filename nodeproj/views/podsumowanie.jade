@@ -1,0 +1,151 @@
+extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        $(function(){ 
+        /*
+             $(#brakpodatku").tipTip({
+                            'attribute' : 'tip',
+                            'fadeIn' : 50,
+                            'fadeOut' : 1000,
+                            'delay': 50,
+                            'defaultPosition': 'right'
+                            });
+          */                  
+           //menu_item
+             $(".menu_item").mouseover(function (event) {
+                $(this).attr("class" , "menu_item bordered");
+                var obj = $(this).find(".table1");
+                
+                obj.show("fast", function() {
+                // Animation complete.
+                });
+            })
+            .mouseleave(function(event) {
+                $(this).attr("class" , "menu_item");
+                var obj = $(this).find(".table1");
+                obj.hide();
+            })
+            
+        });
+        
+    include includes/logo
+    include includes/crumb
+    - if (params)
+        - if(params.length)
+    #podsumowanie
+        - each param in params
+            div.param
+                div.title #{param.nazwa}
+                div.menu
+                    - if( param.cena_p > 0 )
+                        div.item przychody #{param.cena_p.toFixed(2)} zł
+                            br
+                            a vat #{param.vat_sum_p.toFixed(2)} zł
+                            -if (param.vat_details_group.length > 0 || param.vat_details.length > 0)
+                                div.menu_item ...
+                                    -if (param.vat_details.length > 0)
+                                        #table
+                                            table.table1
+                                                tr
+                                                    td(colspan = "2") podsumowanie vat.
+                                                tr 
+                                                    th netto
+                                                    th vat
+                                                    th vat suma
+                                                - each vat_item in param.vat_details
+                                                    - if(vat_item.typ == 1)
+                                                        tr
+                                                            td #{vat_item.cena.toFixed(2)}  zł
+                                                            td #{ (vat_item.vatstawka * 100).toFixed(0) } % 
+                                                            td #{vat_item.vat_sum.toFixed(2)} zł
+                                    -if (param.vat_details_group.length > 0)
+                                        #table
+                                            table.table1
+                                                tr
+                                                    td(colspan = "3") podsumowanie vat grupowane
+                                                tr 
+                                                    th netto 
+                                                    th vat 
+                                                    th vat suma
+                                                - each vat_item in param.vat_details_group
+                                                    - if(vat_item.typ == 1)
+                                                        tr
+                                                            td #{vat_item.cena.toFixed(2)}  zł
+                                                            td #{(vat_item.vatstawka *100).toFixed(0)} % 
+                                                            td #{vat_item.vat_sum.toFixed(2)} zł
+                    - else
+                        div.item.itemGrey brak przychodów
+                    - if( param.cena_w  > 0 )
+                        div.item wydatki #{param.cena_w.toFixed(2) } zł
+                            br
+                            a vat #{param.vat_sum_w.toFixed(2)} zł
+                            -if (param.vat_details_group.length > 0 || param.vat_details.length > 0)
+                                div.menu_item ...
+                                    -if (param.vat_details.length > 0)
+                                        #table
+                                            table.table1
+                                                tr
+                                                    td(colspan = "2") podsumowanie vat.
+                                                tr 
+                                                    th netto
+                                                    th vat
+                                                    th vat suma
+                                                - each vat_item in param.vat_details
+                                                    - if(vat_item.typ == -1)
+                                                        tr
+                                                            td #{vat_item.cena.toFixed(2)}  zł
+                                                            td #{ (vat_item.vatstawka * 100).toFixed(0) } % 
+                                                            td #{vat_item.vat_sum.toFixed(2)} zł
+                                    -if (param.vat_details_group.length > 0)
+                                        #table
+                                            table.table1
+                                                tr
+                                                    td(colspan = "3") podsumowanie vat grupowane
+                                                tr 
+                                                    th netto 
+                                                    th vat 
+                                                    th vat suma
+                                                - each vat_item in param.vat_details_group
+                                                    - if(vat_item.typ == -1)
+                                                        tr
+                                                            td #{vat_item.cena.toFixed(2)}  zł
+                                                            td #{(vat_item.vatstawka *100).toFixed(0)} % 
+                                                            td #{vat_item.vat_sum.toFixed(2)} zł
+                            
+                    - else
+                        div.item.itemGrey brak wydatków
+                div.menu
+                    div.item.itemHidden
+                div.menu
+                    div.item.itemHidden
+                    - if (param.dochod > 0)
+                        div.item dochód #{param.dochod.toFixed(2)} zł
+                    - else
+                        div.item.itemGrey brak dochodów
+                            
+                div.menu
+                    div.item.itemHidden
+                    div.item - 
+                div.menu
+                    div.item.itemHidden
+                    div.item odliczenia #{param.odliczenia.toFixed(2)} zł
+                div.menu
+                    div.item.itemHidden
+                    div.item = 
+                div.menu
+                    div.item.itemHidden
+                    -if (param.podatek_narastajaco > 0) 
+                        div.item podatek  #{param.podatek_narastajaco.toFixed(2)} zł
+                            br
+                            - if(param.vat_roznica  > 0)
+                                a vat #{param.vat_roznica.toFixed(2)} zł
+                            - if(param.vat_roznica  < 0)
+                                a zwrot vat #{param.vat_roznica.toFixed(2)} zł
+                    -else
+                        div.item.itemGrey(id="brakpodatku" , title=param.podatek_narastajaco.toFixed(2)) brak podatku
+                            br
+                            - if(param.vat_roznica > 0)
+                                a vat #{param.vat_roznica.toFixed(2)} zł
+                            - if(param.vat_roznica < 0)
+                                a zwrot vat #{param.vat_roznica.toFixed(2)} zł    

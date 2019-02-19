@@ -1,0 +1,39 @@
+﻿extends layout
+block content
+    block scripts
+    script(type='text/javascript')
+        $(function(){ 
+            $(document).ready(function(){
+                $("#nazwa").focus();
+            });
+            //menu_item
+             $(".menu_item").mouseover(function (event) {
+                elem = event.target;
+                $(elem).attr("class" , "menu_item bordered");
+            })
+            .mouseleave(function(event) {
+               elem = event.target;
+                $(elem).attr("class" , "menu_item");
+            })
+            .click(function(event) {
+                elem = event.target;
+                $('#form_obj').submit();
+                
+            });
+        });
+    include includes/logo
+    include includes/crumb
+    form( id="form_obj", method="post")
+        #menus
+            div.menu_item Utwórz
+        #edycja1
+            input(type="hidden", name="refrok", id="refrok", value=rokDoc._id )
+            div.menu
+                div.box
+                    div.title Miesiąc: 
+                    div.item 
+                        input(type="text", name="nazwa", id="nazwa")
+                div.box                 
+                    div.title Stałe odliczenie od podatku: 
+                    div.item
+                        input(type="text", name="odliczeniestawka", id="odliczeniestawka" , value=rokDoc.odliczeniestawka)

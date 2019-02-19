@@ -1,0 +1,9 @@
+#crumbs
+        div.crumb Jesteś tutaj: 
+        - each crumb, i  in crumbs
+            div.crumb
+                - if( i != crumbs.length -1 )
+                   a(href=crumb.link + (crumb.id ? crumb.id : '')) #{crumb.nazwa}
+                   a  /  
+                -else
+                   a #{crumb.nazwa}
