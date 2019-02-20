@@ -20,8 +20,7 @@ B) Get node_modules dir
     npm update
 
 
-******  How tu run: ****** 
-
+******  How to run: ******
 
 A) Run servers by uruchom.bat (windows) or uruchom.sh (linux)
 
