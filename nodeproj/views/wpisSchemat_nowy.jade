@@ -12,32 +12,32 @@ block content
                         $(this).attr("class" , "action bordered");
                   });
             }
-        $(function(){ 
-        
+        $(function(){
+
         $(document).ready(function(){
                 $("input").each(function (i) {
                     setActionButtonStatus($(this).attr("id"));
                 });
-                
+
                 $("#nazwa").focus();
-                
+
             });
 
         $('#przychod').change(function(){
-            $('#typ').val($('#przychod').val()); 
+            $('#typ').val($('#przychod').val());
         });
         $('#wydatek').change(function(){
-            $('#typ').val($('#wydatek').val()); 
+            $('#typ').val($('#wydatek').val());
         });
-        
-        $(".action").mouseover(function (event) { 
+
+        $(".action").mouseover(function (event) {
                 elem = event.target;
                 $(elem).attr("class" , "action bolded");
             })
             .mouseleave(function(event) {
                 elem = event.target;
                 $(elem).attr("class" , "action");
-                
+
                 $("input").each(function (i) {setActionButtonStatus($(this).attr("id"));});
             })
             .click(function(event) {
@@ -47,11 +47,11 @@ block content
                 }
                 else
                     window.location.href =  $(elem).attr("link") ;
-                    
+
                 $("input").each(function (i) {setActionButtonStatus($(this).attr("id"));});
             });
-            
-            
+
+
             //menu_item
              $(".menu_item").mouseover(function (event) {
                 elem = event.target;
@@ -64,9 +64,9 @@ block content
             .click(function(event) {
                 elem = event.target;
                 $('#form_obj').submit();
-                
+
             });
-                
+
         });
     include includes/logo
     include includes/crumb
@@ -75,47 +75,47 @@ block content
             div.menu_item Utwórz
         #edycja1
             input(type="hidden", name="refrok", id="refrok", value=rokDoc._id )
-            input(type="hidden", name="typ", id="typ", value="0")
+            input(type="hidden", name="typ", id="typ", value="1")
             div.menu
                 div.box
-                    div.title Nazwa: 
+                    div.title Nazwa:
                     div.item
                         input(type="text", name="nazwa", id="nazwa")
                 div.box
-                    div.title Stawka Vat: 
+                    div.title Stawka Vat:
                     div.item
                         input(type="hidden", name="vatstawka", id="vatstawka" , value="0.23")
-                        
+
                         div.action(field="vatstawka", value="0.23") 23%
                         div.action(field="vatstawka", value="0.22") 22%
                         div.action(field="vatstawka", value="0.05") 5%
                         div.action(field="vatstawka", value="0.07") 7%
                         div.action(field="vatstawka", value="0.00") 0%
                 div.box
-                    div.title Typ: 
+                    div.title Typ:
                     div.item
                         input(type="radio", name="typ_radio", id="przychod", value = "1", checked)
-                        a przychód 
+                        a przychód
                         input(type="radio", name="typ_radio", id="wydatek", value = "-1")
                         a wydatek
                 div.box
-                    div.title Firma: 
+                    div.title Firma:
                     div.item
                         input(type="text", name="firma", id="firma")
                 div.box
-                    div.title Nip: 
+                    div.title Nip:
                     div.item
                         input(type="text", name="nip", id="nip")
                 div.box
-                    div.title Adres: 
+                    div.title Adres:
                     div.item
                         input(type="text", name="adres", id="adres")
                 div.box
-                    div.title Opis: 
+                    div.title Opis:
                     div.item
                         input(type="text", name="opis", id="opis")
                  div.box
-                    div.title Odliczenie Vat: 
+                    div.title Odliczenie Vat:
                     div.item
                         input(type="hidden", name="vatodliczenie", id="vatodliczenie" , value="0")
                         div.action(field="vatodliczenie", value="0.50") 50%
