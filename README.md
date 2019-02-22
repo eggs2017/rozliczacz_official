@@ -25,3 +25,5 @@ B) Get node_modules dir
 A) Run servers by uruchom.bat (windows) or uruchom.sh (linux)
 
 B) In web browser type  http://localhost:7778
+
+![](https://github.com/eggs2017/rozliczacz_official/blob/master/tutorial/tutorial1.gif)
