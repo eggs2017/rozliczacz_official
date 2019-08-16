@@ -369,37 +369,39 @@ RoutesProvider.prototype.getRoutes = function(){
                         pos++;
                 }
 
+                wpisSchematProvider.findByRok(mies_doc.refrok, function(error, wpisSchematDoc){
 
-                wpisProvider.findbyMiesReverseSort(req.params.id, function(error,doc){
-                    var sumap = 0;
-                    var sumaw = 0;
+                    wpisProvider.findbyMiesReverseSort(req.params.id, function(error,doc){
+                        var sumap = 0;
+                        var sumaw = 0;
 
-                    for(var wpisId in doc){
+                        for(var wpisId in doc){
 
-                        //odliczenie vat
-                        var wpisElem = doc[wpisId]
-                        var vo = +(wpisElem.vatodliczenie);
+                            //odliczenie vat
+                            var wpisElem = doc[wpisId]
+                            var vo = +(wpisElem.vatodliczenie);
 
-                        var pcena = parseLocalNum(wpisElem.cena);
-                        wpisElem.cena = ( vo > 0 ? +(pcena) + +((wpisElem.vatstawka * pcena) *(1- vo)) : +(pcena));
+                            var pcena = parseLocalNum(wpisElem.cena);
+                            wpisElem.cena = ( vo > 0 ? +(pcena) + +((wpisElem.vatstawka * pcena) *(1- vo)) : +(pcena));
 
 
-                        var refschemat = doc[wpisId].refschemat;
-                        for(var schematId in wpisSchematDoc){
-                            if(wpisSchematDoc[schematId]._id == refschemat){
-                                doc[wpisId].schematTyp = wpisSchematDoc[schematId].typ;
-                                if(doc[wpisId].schematTyp > 0)
-                                    sumap += parseLocalNum(doc[wpisId].cena);
-                                else
-                                    sumaw += parseLocalNum(doc[wpisId].cena);
-                                break;
+                            var refschemat = doc[wpisId].refschemat;
+                            for(var schematId in wpisSchematDoc){
+                                if(wpisSchematDoc[schematId]._id == refschemat){
+                                    doc[wpisId].schematTyp = wpisSchematDoc[schematId].typ;
+                                    if(doc[wpisId].schematTyp > 0)
+                                        sumap += parseLocalNum(doc[wpisId].cena);
+                                    else
+                                        sumaw += parseLocalNum(doc[wpisId].cena);
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    res.render('miesiac_drukowanie.jade', {title: 'Drukowanie', param: doc, prev_id_count: pos, sumap: sumap.toFixed(2), sumaw: sumaw.toFixed(2), miesiac: mies_doc.nazwa });
-                });
+                        res.render('miesiac_drukowanie.jade', {title: 'Drukowanie', param: doc, prev_id_count: pos, sumap: sumap.toFixed(2), sumaw: sumaw.toFixed(2), miesiac: mies_doc.nazwa });
+                    });
 
+                  });
               });
 
               });
