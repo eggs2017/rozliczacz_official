@@ -2,6 +2,9 @@
 
 Keys: Podatki,mikrofirma, jpk, vat, pit
 
+Use ready system at: https://github.com/eggs2017/rozliczacz_official_instalka
+
+Or follow due to instruction
 
 ****** How to install: ******
 
